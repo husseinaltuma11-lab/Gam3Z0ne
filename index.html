@@ -5,119 +5,316 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Gam3Z0ne</title>
+<style>
+  * {
+    box-sizing: border-box;
+  }
 
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+  body {
+    margin: 0;
+    min-height: 100vh;
+    font-family: Arial, sans-serif;
+    color: white;
+    background: #11152e;
+    overflow-x: hidden;
+  }
 
-    body {
-      margin: 0;
-      min-height: 100vh;
-      font-family: Arial, sans-serif;
-      color: white;
-      background: #11152e;
-      overflow-x: hidden;
-    }
+  /* Blue gradient background */
+  .background {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    overflow: hidden;
+    background: linear-gradient(
+      135deg,
+      #001538 0%,
+      #003b78 48%,
+      #007fc4 100%
+    );
+  }
 
-   
-.background {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  background: linear-gradient(135deg, #001f54, #00509d, #00a6fb);
-}
+  .blur {
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    border-radius: 50%;
+    filter: blur(100px);
+    opacity: 0.55;
+    pointer-events: none;
+  }
 
-.blur-one {
-  background: #007bff;
-  top: 5%;
-  left: 5%;
-}
+  .blur-one {
+    background: #007bff;
+    top: 5%;
+    left: 5%;
+  }
 
-.blur-two {
-  background: #00c8ff;
-  right: 0;
-  top: 35%;
-}
+  .blur-two {
+    background: #00c8ff;
+    right: 0;
+    top: 35%;
+  }
 
-.blur-three {
-  background: #4169e1;
-  bottom: 0;
-  left: 15%;
-}
+  .blur-three {
+    background: #4169e1;
+    bottom: 0;
+    left: 15%;
+  }
 
-    /* Scrollable page */
+  /* Main page */
+  .container {
+    min-height: 100vh;
+    padding: 40px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  h1 {
+    margin: 20px 0 10px;
+    font-size: clamp(30px, 5vw, 42px);
+    font-weight: 800;
+    letter-spacing: 1px;
+    text-align: center;
+    text-shadow: 0 3px 22px rgba(100, 200, 255, 0.3);
+  }
+
+  p {
+    margin-bottom: 30px;
+    color: #d7eaff;
+    text-align: center;
+    line-height: 1.6;
+  }
+
+  /* Glass menu layout */
+  .buttons {
+    width: 100%;
+    max-width: 420px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  /* Shared glass button design */
+  .buttons button,
+  .back-button {
+    position: relative;
+    isolation: isolate;
+    overflow: hidden;
+
+    width: 100%;
+    min-height: 70px;
+    padding: 18px 22px;
+
+    color: #fff;
+    font-family: inherit;
+    font-size: 17px;
+    font-weight: 600;
+    letter-spacing: 0.5px;
+
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.17),
+      rgba(255, 255, 255, 0.045)
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.32);
+    border-radius: 18px;
+
+    backdrop-filter: blur(20px) saturate(150%);
+    -webkit-backdrop-filter: blur(20px) saturate(150%);
+
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.38),
+      inset 0 -1px 1px rgba(255, 255, 255, 0.06),
+      0 8px 24px rgba(0, 12, 40, 0.18);
+
+    cursor: pointer;
+
+    transition:
+      background 0.3s ease,
+      border-color 0.3s ease,
+      box-shadow 0.3s ease,
+      transform 0.3s ease;
+  }
+
+  /* Subtle reflective surface */
+  .buttons button::before,
+  .back-button::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    border-radius: inherit;
+    pointer-events: none;
+
+    background: linear-gradient(
+      115deg,
+      rgba(255, 255, 255, 0.15),
+      transparent 42%,
+      transparent 72%,
+      rgba(100, 200, 255, 0.08)
+    );
+
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+  }
+
+  /* Glass hover effect */
+  .buttons button:hover,
+  .back-button:hover {
+    background: linear-gradient(
+      135deg,
+      rgba(255, 255, 255, 0.25),
+      rgba(255, 255, 255, 0.09)
+    );
+
+    border-color: rgba(255, 255, 255, 0.58);
+
+    box-shadow:
+      inset 0 1px 2px rgba(255, 255, 255, 0.48),
+      0 12px 30px rgba(0, 12, 40, 0.22),
+      0 0 22px rgba(90, 200, 255, 0.16);
+
+    transform: translateY(-3px);
+  }
+
+  .buttons button:hover::before,
+  .back-button:hover::before {
+    opacity: 1;
+  }
+
+  /* Button press */
+  .buttons button:active,
+  .back-button:active {
+    transform: translateY(0) scale(0.985);
+  }
+
+  /* Keyboard focus */
+  .buttons button:focus-visible,
+  .back-button:focus-visible {
+    outline: 2px solid #b9e8ff;
+    outline-offset: 4px;
+  }
+
+  /* Game page */
+  .game-page {
+    width: 100%;
+    max-width: 850px;
+    min-height: 100vh;
+    margin: 0 auto;
+    padding: 30px 20px 50px;
+    display: none;
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .game-page h1 {
+    margin: 25px 0 10px;
+  }
+
+  .game-page .subtitle {
+    margin-bottom: 25px;
+  }
+
+  /* Back button */
+  .back-button {
+    width: auto;
+    min-width: 130px;
+    min-height: 48px;
+    align-self: flex-start;
+    padding: 12px 20px;
+    font-size: 15px;
+  }
+
+  /* Glass game container */
+  .game-frame {
+    position: relative;
+    width: 100%;
+    min-height: 420px;
+    padding: 25px;
+
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+
+    background: linear-gradient(
+      145deg,
+      rgba(255, 255, 255, 0.11),
+      rgba(0, 20, 60, 0.28)
+    );
+
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 24px;
+
+    backdrop-filter: blur(22px);
+    -webkit-backdrop-filter: blur(22px);
+
+    box-shadow:
+      inset 0 1px 1px rgba(255, 255, 255, 0.24),
+      0 16px 45px rgba(0, 10, 35, 0.22),
+      0 0 30px rgba(0, 140, 255, 0.1);
+  }
+
+  .game-frame h2 {
+    margin: 0 0 15px;
+    font-size: 25px;
+    letter-spacing: 3px;
+    text-align: center;
+  }
+
+  .game-frame p {
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* Mobile adjustments */
+  @media (max-width: 480px) {
     .container {
-      min-height: 100vh;
-      padding: 40px 20px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
+      padding: 25px 18px;
     }
 
-    h1 {
-      margin: 20px 0 10px;
-      font-size: 32px;
-      text-align: center;
-    }
-
-    p {
-      margin-bottom: 30px;
-      color: #d7d9f2;
-      text-align: center;
-    }
-
-    /* Six buttons */
     .buttons {
-      width: 100%;
-      max-width: 420px;
-      display: flex;
-      flex-direction: column;
-      gap: 18px;
+      gap: 14px;
     }
 
     .buttons button {
-      width: 100%;
-      min-height: 70px;
-      padding: 18px;
-      border: 1px solid rgba(255, 255, 255, 0.3);
-      border-radius: 18px;
-      background: rgba(255, 255, 255, 0.12);
-      backdrop-filter: blur(15px);
-      -webkit-backdrop-filter: blur(15px);
-      color: white;
-      font-size: 17px;
-      cursor: pointer;
-      transition: 0.25s ease;
+      min-height: 64px;
     }
 
-    .buttons button:hover {
-      background: rgba(255, 255, 255, 0.25);
-      transform: translateY(-3px);
-      border-color: rgba(255, 255, 255, 0.6);
+    .game-page {
+      padding: 24px 18px 40px;
     }
 
-    .buttons button:active {
-      transform: scale(0.98);
+    .game-frame {
+      min-height: 350px;
+      padding: 20px;
     }
-  </style>
+  }
+
+  /* Accessibility */
+  @media (prefers-reduced-motion: reduce) {
+    .buttons button,
+    .back-button,
+    .buttons button::before,
+    .back-button::before {
+      transition: none;
+    }
+  }
+</style>
 </head>
-
 <body>
-
   <div class="background">
     <div class="blur blur-one"></div>
     <div class="blur blur-two"></div>
     <div class="blur blur-three"></div>
   </div>
-
-  <main class="container">
+  <main class="container" id="mainPage">
     <h1>Gam3Z0ne</h1>
     <p>Choose an option below</p>
-
     <div class="buttons">
-      <button onclick="showMessage('Button 1')">Button One</button>
+      <button onclick="openGame()">Button One</button>
       <button onclick="showMessage('Button 2')">Button Two</button>
       <button onclick="showMessage('Button 3')">Button Three</button>
       <button onclick="showMessage('Button 4')">Button Four</button>
@@ -125,8 +322,29 @@
       <button onclick="showMessage('Button 6')">Button Six</button>
     </div>
   </main>
-
+  <section class="game-page" id="gamePage">
+    <button class="back-button" onclick="closeGame()">
+      ← Back
+    </button>
+    <h1>Gam3Z0ne</h1>
+    <p class="subtitle">Your gaming space</p>
+    <div class="game-frame">
+      <h2>FUTURE GAME</h2>
+      <p>Your game will appear here.</p>
+    </div>
+  </section>
   <script>
+    function openGame() {
+      document.getElementById("mainPage").style.display = "none";
+      document.getElementById("gamePage").style.display = "flex";
+      window.scrollTo(0, 0);
+    }
+    function closeGame() {
+      document.getElementById("gamePage").style.display = "none";
+      document.getElementById("mainPage").style.display = "flex";
+      window.scrollTo(0, 0);
+    }
+
     function showMessage(buttonName) {
       alert(buttonName + " clicked!");
     }
@@ -134,4 +352,5 @@
 
 </body>
 </html>
+
 

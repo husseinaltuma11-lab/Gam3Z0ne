@@ -1,1 +1,137 @@
 
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Blurred Background Page</title>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      font-family: Arial, sans-serif;
+      color: white;
+      background: #11152e;
+      overflow-x: hidden;
+    }
+
+   
+.background {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  background: linear-gradient(135deg, #001f54, #00509d, #00a6fb);
+}
+
+.blur-one {
+  background: #007bff;
+  top: 5%;
+  left: 5%;
+}
+
+.blur-two {
+  background: #00c8ff;
+  right: 0;
+  top: 35%;
+}
+
+.blur-three {
+  background: #4169e1;
+  bottom: 0;
+  left: 15%;
+}
+
+    /* Scrollable page */
+    .container {
+      min-height: 100vh;
+      padding: 40px 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    h1 {
+      margin: 20px 0 10px;
+      font-size: 32px;
+      text-align: center;
+    }
+
+    p {
+      margin-bottom: 30px;
+      color: #d7d9f2;
+      text-align: center;
+    }
+
+    /* Six buttons */
+    .buttons {
+      width: 100%;
+      max-width: 420px;
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+    }
+
+    .buttons button {
+      width: 100%;
+      min-height: 70px;
+      padding: 18px;
+      border: 1px solid rgba(255, 255, 255, 0.3);
+      border-radius: 18px;
+      background: rgba(255, 255, 255, 0.12);
+      backdrop-filter: blur(15px);
+      -webkit-backdrop-filter: blur(15px);
+      color: white;
+      font-size: 17px;
+      cursor: pointer;
+      transition: 0.25s ease;
+    }
+
+    .buttons button:hover {
+      background: rgba(255, 255, 255, 0.25);
+      transform: translateY(-3px);
+      border-color: rgba(255, 255, 255, 0.6);
+    }
+
+    .buttons button:active {
+      transform: scale(0.98);
+    }
+  </style>
+</head>
+
+<body>
+
+  <div class="background">
+    <div class="blur blur-one"></div>
+    <div class="blur blur-two"></div>
+    <div class="blur blur-three"></div>
+  </div>
+
+  <main class="container">
+    <h1>My Website</h1>
+    <p>Choose an option below</p>
+
+    <div class="buttons">
+      <button onclick="showMessage('Button 1')">Button One</button>
+      <button onclick="showMessage('Button 2')">Button Two</button>
+      <button onclick="showMessage('Button 3')">Button Three</button>
+      <button onclick="showMessage('Button 4')">Button Four</button>
+      <button onclick="showMessage('Button 5')">Button Five</button>
+      <button onclick="showMessage('Button 6')">Button Six</button>
+    </div>
+  </main>
+
+  <script>
+    function showMessage(buttonName) {
+      alert(buttonName + " clicked!");
+    }
+  </script>
+
+</body>
+</html>
+
